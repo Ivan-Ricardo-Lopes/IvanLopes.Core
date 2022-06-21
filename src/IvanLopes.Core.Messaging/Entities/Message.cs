@@ -1,4 +1,5 @@
 ﻿using IvanLopes.Core.Messaging.Contracts;
+using System.Text.Json;
 
 namespace IvanLopes.Core.Messaging.Entities
 {
@@ -15,6 +16,12 @@ namespace IvanLopes.Core.Messaging.Entities
         public string ContentType { get; internal set; }
         public string ContentJson { get; internal set; }
 
+        public T GetContentObject<T>()
+        {
+            if (typeof(T).FullName != ContentType)
+                throw new ArgumentException(nameof(T), $"The type should be {ContentType}, but is {typeof(T).FullName}");
 
+            return JsonSerializer.Deserialize<T>(ContentJson);
+        }
     }
 }

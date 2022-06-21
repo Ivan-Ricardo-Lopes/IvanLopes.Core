@@ -26,4 +26,7 @@ public interface IMessage
 
     /// <summary>The content of the message serialized as JSON.</summary>
     public string ContentJson { get; }
+
+    /// <summary>Deserialize the ContentJson and returns the object of ContentType.</summary>
+    public T GetContentObject<T>();
 }

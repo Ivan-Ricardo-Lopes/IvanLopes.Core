@@ -8,7 +8,7 @@
         /// <param name="sourceApp"><inheritdoc cref="IMessage.SourceApp" path="/summary"/></param>
         /// <param name="correlationId"><inheritdoc cref="IMessage.CorrelationId" path="/summary"/></param>
         /// <param name="createdBy"><inheritdoc cref="IMessage.CreatedBy" path="/summary"/></param>
-        /// <returns></returns>
+        /// <returns>Returns an instance of IMessage.</returns>
         public IMessage CreateMessage(object content, string sourceApp, string? correlationId = null, string? createdBy = null);
     }
 }

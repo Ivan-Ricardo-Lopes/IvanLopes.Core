@@ -40,14 +40,14 @@ namespace IvanLopes.Core.Messaging.Tests
         }
 
         [Fact]
-        public void Should_throw_exception_content_Is_null()
+        public void Should_Throw_Exception_Content_Is_Null()
         {
             /// Act, Assert
             Assert.Throws<ArgumentNullException>(() => _messageFactory.CreateMessage(null, SOURCE_APP, null, null));
         }
 
         [Fact]
-        public void Should_throw_exception_content_Is_generic_type()
+        public void Should_Throw_Exception_Content_Is_Generic_Type()
         {
             /// Arrange
             var content = new List<string>();
@@ -55,6 +55,35 @@ namespace IvanLopes.Core.Messaging.Tests
             /// Act, Assert
             Assert.Throws<ArgumentException>(() => _messageFactory.CreateMessage(content, SOURCE_APP, null, null));
         }
+
+        [Fact]
+        public void Should_Message_Deserialize_Content_Properly()
+        {
+            /// Arrange
+            var content = new ContentClassTest() { Id = Guid.NewGuid() };
+            string correlationId = Guid.NewGuid().ToString();
+            IMessage message = _messageFactory.CreateMessage(content, SOURCE_APP, correlationId, USER_IDENTIFIER);
+
+            /// Act
+            var deserializedContent = message.GetContentObject<ContentClassTest>();
+
+            /// Asserts
+            Assert.True(deserializedContent is ContentClassTest);
+            Assert.Equal(content.Id, deserializedContent.Id);
+        }
+
+        [Fact]
+        public void Should_Throw_Exception_Deserialize_Type_Param_Is_Different_Then_ContentType()
+        {
+            /// Arrange
+            var content = new ContentClassTest() { Id = Guid.NewGuid() };
+            string correlationId = Guid.NewGuid().ToString();
+            IMessage message = _messageFactory.CreateMessage(content, SOURCE_APP, correlationId, USER_IDENTIFIER);
+
+            /// Act, Assert            
+            Assert.Throws<ArgumentException>(() => message.GetContentObject<Type>());
+        }
+
 
         internal class ContentClassTest
         {
