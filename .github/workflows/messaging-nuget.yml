@@ -1,4 +1,4 @@
-name: pack-and-publish
+name: messaging-nuget
 
 on:
   workflow_dispatch:
